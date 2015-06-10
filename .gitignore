@@ -157,7 +157,7 @@ sftp-config.json
 ### Vagrant ###
 .vagrant/
 
-vagrantroot/data/*.sql
+/vagrant/data/*.sql
 
 WEB-INF
-/artifacts/*.run
+/vagrant/artifacts/*.run
