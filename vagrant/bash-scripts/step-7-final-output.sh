@@ -11,6 +11,9 @@ sudo rm /root/*.run > /dev/null
 sudo rm /root/lucee-options.txt > /dev/null
 sudo rm /root/jcameron-key.asc > /dev/null
 
+# Gid rid of firewalld
+systemctl stop firewalld
+systemctl disable firewalld
 
 echo " "
 echo "================= END STEP-7-FINAL-OUTPUT.SH $(date +"%r") ================="
