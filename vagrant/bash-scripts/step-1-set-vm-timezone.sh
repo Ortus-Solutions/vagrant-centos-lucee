@@ -3,7 +3,7 @@
 echo "BEGIN Set VM timezone and perform some cleanup pre-install ..."
 
 # set server timezone
-echo $1 | ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime
+echo $1 | ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime
 
 # a little housekeeping
 echo "... Doing a little housekeeping ..."
