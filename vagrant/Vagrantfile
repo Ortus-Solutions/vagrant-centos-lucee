@@ -5,10 +5,10 @@
 vm_ip_address = "192.168.50.25"
 vm_naked_hostname = "lucee.dev"
 vm_www_hostname = "www.#{vm_naked_hostname}"
-vm_name = "Lucee-Dev-#{vm_current_version}"
+vm_name = "Lucee-Develop"
 vm_max_memory = 4096
-vm_num_cpus = 2
-vm_max_host_cpu_cap = "30"
+vm_num_cpus = 4
+vm_max_host_cpu_cap = "100"
 
 # synced folder configuration
 synced_webroot_local = "../www"
@@ -19,7 +19,8 @@ synced_webroot_group = "vagrant"
 
 
 Vagrant.configure("2") do |config|
-	config.vm.box = "cyvaquero/centos-6.6_base"
+	config.vm.box = "centos-7-x64"
+	config.vm.box_url = "https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box"
 	config.vm.boot_timeout = 180
 
 	config.vm.provider "virtualbox" do |v|
@@ -51,7 +52,7 @@ Vagrant.configure("2") do |config|
 	end
 
 	# set vm timezone and do some cleanup before installations
-	config.vm.provision :shell, :path => "bash-scripts/step-1-set-vm-timezone.sh", :privileged => true, :args => vm_timezone
+	config.vm.provision :shell, :path => "bash-scripts/step-1-set-vm-timezone.sh", :privileged => true
 
 	# install miscellaneous utilities
 	config.vm.provision :shell, :path => "bash-scripts/step-2-install-utilities.sh", :privileged => true
@@ -74,5 +75,5 @@ Vagrant.configure("2") do |config|
 
 	# after everything has mounted, start apache
 	# this is needed b/c Apache tries to start before sync'd folders are mounted
-	config.vm.provision :shell, :inline => "sudo service httpd start", run: "always"
+	config.vm.provision :shell, :inline => "sudo service nginx start", run: "always"
 end

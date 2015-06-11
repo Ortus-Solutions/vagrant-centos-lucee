@@ -11,11 +11,6 @@ sudo rm /root/*.run > /dev/null
 sudo rm /root/lucee-options.txt > /dev/null
 sudo rm /root/jcameron-key.asc > /dev/null
 
-# disable iptables
-/etc/init.d/iptables save
-/etc/init.d/iptables stop
-chkconfig iptables off
-
 
 echo " "
 echo "================= END STEP-7-FINAL-OUTPUT.SH $(date +"%r") ================="

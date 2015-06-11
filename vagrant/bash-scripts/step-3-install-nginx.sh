@@ -2,25 +2,25 @@
 
 echo "================= START STEP-3-INSTALL-NGINX.SH $(date +"%r") ================="
 echo " "
-echo "BEGIN installing and configuring apache ..."
+echo "BEGIN installing and configuring Nginx ..."
 
-#install apache
+#install Nginx
 if [ ! -d "/etc/nginx" ]; then
 	sudo yum install epel-release -y > /dev/null
 	sudo yum install nginx -y > /dev/null
 fi
 
-echo "... Configuring apache ..."
-# copy our modified apache config files
-cp /vagrant/configs/default.conf /etc/nginx/conf.d/
+echo "... Configuring Nginx ..."
+# copy our modified Nginx config files
+/bin/cp -f /vagrant/configs/nginx.conf /etc/nginx/ 
 
-# restart apache
+# restart Nginx
 service nginx restart > /dev/null
 
-# set apache to start at boot
+# set Nginx to start at boot
 chkconfig nginx on > /dev/null
 
-echo "... End installing and configuring apache."
+echo "... End installing and configuring Nginx."
 echo " "
 echo "================= FINISH STEP-3-INSTALL-NGINX.SH $(date +"%r") ================="
 echo " "
