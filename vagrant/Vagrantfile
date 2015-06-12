@@ -63,6 +63,9 @@ Vagrant.configure("2") do |config|
 	# install/configure Oracle JDK
 	config.vm.provision :shell, :path => "bash-scripts/install-jdk.sh", :privileged => true
 
+	# install/configure CommandBox
+	config.vm.provision :shell, :path => "bash-scripts/install-commandbox.sh", :privileged => true
+
 	# install/configure lucee
 	config.vm.provision :shell, :path => "bash-scripts/install-lucee.sh", :privileged => true, :args => [
 		vm_name, vm_www_hostname, vm_ip_address
