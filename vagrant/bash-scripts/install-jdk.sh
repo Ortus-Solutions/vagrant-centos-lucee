@@ -21,8 +21,8 @@ if [ ! -d "/usr/lib/jvm/jdk1.8.0_45" ]; then
 	fi
 
 	# Install JDK
-	sudo gunzip /vagrant/artifacts/$JDK_FILE
-	sudo tar -xvf /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar
+	sudo gunzip /vagrant/artifacts/$JDK_FILE &> /dev/null
+	sudo tar -xvf /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &> /dev/null
 	rm -f /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar
 	
 	# Move to install directory
