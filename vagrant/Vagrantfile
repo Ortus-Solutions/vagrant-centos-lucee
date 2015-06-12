@@ -52,21 +52,21 @@ Vagrant.configure("2") do |config|
 	end
 
 	# set vm timezone and do some cleanup before installations
-	config.vm.provision :shell, :path => "bash-scripts/step-1-set-vm-timezone.sh", :privileged => true
+	config.vm.provision :shell, :path => "bash-scripts/set-vm-timezone.sh", :privileged => true
 
 	# install miscellaneous utilities
-	config.vm.provision :shell, :path => "bash-scripts/step-2-install-utilities.sh", :privileged => true
+	config.vm.provision :shell, :path => "bash-scripts/install-utilities.sh", :privileged => true
 
 	# install/configure apache
-	config.vm.provision :shell, :path => "bash-scripts/step-3-install-nginx.sh", :privileged => true
+	config.vm.provision :shell, :path => "bash-scripts/install-nginx.sh", :privileged => true
 
 	# install/configure lucee
-	config.vm.provision :shell, :path => "bash-scripts/step-4-install-lucee.sh", :privileged => true, :args => [
+	config.vm.provision :shell, :path => "bash-scripts/install-lucee.sh", :privileged => true, :args => [
 		vm_name, vm_www_hostname, vm_ip_address
 	]
 
 	# confirm setup is complete and output connection info
-	config.vm.provision :shell, :path => "bash-scripts/step-7-final-output.sh", :privileged => true, :args => [
+	config.vm.provision :shell, :path => "bash-scripts/final-output.sh", :privileged => true, :args => [
 		vm_name, vm_www_hostname, vm_ip_address
 	]
 

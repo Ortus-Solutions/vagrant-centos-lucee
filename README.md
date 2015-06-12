@@ -1,4 +1,4 @@
-# Vagrant Lucee Development VM (CentOS / Apache / MySQL / Tomcat / Lucee)
+# Vagrant Lucee Development VM (CentOS / Nginx / Tomcat / Lucee)
 Vagrant box for local development with CFML and Java
 
 ##### Last Updated June 9, 2015
