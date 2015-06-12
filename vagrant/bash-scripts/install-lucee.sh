@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "================= START STEP-4-INSTALL-LUCEE.SH $(date +"%r") ================="
+echo "================= START INSTALL-LUCEE.SH $(date +"%r") ================="
 echo " "
 echo "BEGIN setting up Lucee"
 
@@ -33,7 +33,7 @@ fi
 ###############################################################################################
 PATCH_VERSION="4.5.1.020"
 PATCH_FILE="$PATCH_VERSION.lco"
-PATCH_FORCE=1
+PATCH_FORCE=0
 
 echo "BEGIN Lucee Patching: $PATCH_FILE";
 
@@ -63,9 +63,9 @@ sudo cp /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
 ## Restarting
 ##############################################################################################
 echo "... Restarting Lucee ..."
-#service lucee_ctl restart > /dev/null
+service lucee_ctl restart > /dev/null
 
 echo "... END setting up Lucee."
 echo " "
-echo "================= FINISH STEP-4-INSTALL-LUCEE.SH $(date +"%r") ================="
+echo "================= FINISH INSTALL-LUCEE.SH $(date +"%r") ================="
 echo " "

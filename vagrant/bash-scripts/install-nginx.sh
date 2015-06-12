@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "================= START STEP-3-INSTALL-NGINX.SH $(date +"%r") ================="
+echo "================= START INSTALL-NGINX.SH $(date +"%r") ================="
 echo " "
 echo "BEGIN installing and configuring Nginx ..."
 
@@ -22,5 +22,5 @@ chkconfig nginx on > /dev/null
 
 echo "... End installing and configuring Nginx."
 echo " "
-echo "================= FINISH STEP-3-INSTALL-NGINX.SH $(date +"%r") ================="
+echo "================= FINISH INSTALL-NGINX.SH $(date +"%r") ================="
 echo " "

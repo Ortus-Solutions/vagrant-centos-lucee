@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "================= START STEP-2-INSTALL-UTILITIES.SH $(date +"%r") ================="
+echo "================= START INSTALL-UTILITIES.SH $(date +"%r") ================="
 echo " "
 echo "BEGIN installing utilities"
 
@@ -27,5 +27,5 @@ fi
 
 echo "... END installing utilities."
 echo " "
-echo "================= FINISH STEP-2-INSTALL-UTILITIES.SH $(date +"%r") ================="
+echo "================= FINISH INSTALL-UTILITIES.SH $(date +"%r") ================="
 echo " "

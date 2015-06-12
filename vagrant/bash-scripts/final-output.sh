@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "================= START STEP-7-FINAL-OUTPUT.SH $(date +"%r") ================="
+echo "================= START FINAL-OUTPUT.SH $(date +"%r") ================="
 echo " "
 echo "Doing some last minute cleanup ..."
 
@@ -16,7 +16,7 @@ systemctl stop firewalld
 systemctl disable firewalld
 
 echo " "
-echo "================= END STEP-7-FINAL-OUTPUT.SH $(date +"%r") ================="
+echo "================= END FINAL-OUTPUT.SH $(date +"%r") ================="
 echo " "
 echo " "
 echo "$1"
