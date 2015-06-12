@@ -55,8 +55,8 @@ fi
 ## Lucee Configuration
 ##############################################################################################
 echo "... Copying the Lucee config files into place ..."
-sudo cp /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
-#sudo cp /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
+sudo /bin/cp -f /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
+sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
 #sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
 
 ##############################################################################################
