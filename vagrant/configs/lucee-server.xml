@@ -164,7 +164,7 @@ Path placeholders:
 	<scope applicationtimeout="1,0,0,0" cascade-to-resultset="yes" cascading="standard" client-directory-max-size="10mb" client-max-age="90" clientmanagement="no" merge-url-form="no" sessionmanagement="yes" sessiontimeout="0,0,30,0" setclientcookies="yes" setdomaincookies="no"/>
 		
 	<mail spool-enable="yes" spool-interval="5" timeout="30">
-	</mail>
+	<server password="" port="2525" smtp="localhost" ssl="false" tls="false" username=""/></mail>
 	
 	<mappings>
 	<!--
