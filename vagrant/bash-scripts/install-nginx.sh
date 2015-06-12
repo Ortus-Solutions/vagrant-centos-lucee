@@ -12,7 +12,9 @@ fi
 
 echo "... Configuring Nginx ..."
 # copy our modified Nginx config files
-/bin/cp -f /vagrant/configs/nginx.conf /etc/nginx/ 
+sudo /bin/cp -f /vagrant/configs/nginx.conf /etc/nginx/ 
+# copy SSL Certs
+sudo /bin/cp -fr /vagrant/configs/ssl /etc/nginx/
 
 # restart Nginx
 service nginx restart > /dev/null
