@@ -27,6 +27,7 @@ else
 fi
 
 # Run fake SMTP Server
+echo "Starting up FakeSMTP server on port 2525, output: /opt/fakeSMTP/output"
 java -jar /opt/fakeSMTP/fakeSMTP-$VERSION.jar --start-server --background --port 2525 --output-dir /opt/fakeSMTP/output &
 
 echo "... END installing fake SMTP."
