@@ -28,7 +28,7 @@ else
 	echo "CommandBox is already installed, skipping"
 fi
 
-echo "... END installing JDK."
+echo "... END installing CommandBox."
 echo " "
 echo "================= FINISH install-commandbox.sh $(date +"%r") ================="
 echo " "

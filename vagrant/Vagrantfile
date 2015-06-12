@@ -70,6 +70,9 @@ Vagrant.configure("2") do |config|
 		vm_name, vm_www_hostname, vm_ip_address
 	]
 
+	# install/configure FakeSMTP
+	config.vm.provision :shell, :path => "bash-scripts/install-fakesmtp.sh", :privileged => true
+
 	# confirm setup is complete and output connection info
 	config.vm.provision :shell, :path => "bash-scripts/final-output.sh", :privileged => true, :args => [
 		vm_name, vm_www_hostname, vm_ip_address
