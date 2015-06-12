@@ -161,3 +161,5 @@ sftp-config.json
 
 WEB-INF
 /vagrant/artifacts/*.run
+.tasklist.md
+*.lco
