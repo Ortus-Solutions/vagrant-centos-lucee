@@ -1,48 +1,54 @@
-# Vagrant Lucee Development VM (CentOS / Nginx / Tomcat / Lucee)
-Vagrant box for local development with CFML and Java
+# Vagrant Lucee Development VM (CentOS / Nginx / Tomcat / Lucee / CommandBox)
 
-##### Last Updated June 9, 2015
----
+Vagrant box for local development with Lucee/CommandBox and several utilities
 
-### Prerequisites
-NOTE: All version numbers used in this document are confirmed to work, and are current, as of the time of this writing
+## Requirements
 
-#### Required
 It is assumed you have Virtual Box and Vagrant installed. If not, then grab the latest version of each at the links below:
-* [Virtual Box and Virtual Box Guest Additions](https://www.virtualbox.org/wiki/Downloads) (4.3.26)
-* [Vagrant](https://www.vagrantup.com/downloads.html) (v1.7.2)
+* [Virtual Box and Virtual Box Guest Additions](https://www.virtualbox.org/wiki/Downloads)
+* [Vagrant](https://www.vagrantup.com/downloads.html)
 
-#### Highly Recommended
+### Vagrant Plugins
+
 Once Vagrant is installed, or if it already is, it's highly recommended that you install the following Vagrant plugins:
-* [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) (v0.0.11).
+
+* [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
 ```$ vagrant plugin install vagrant-hostsupdater```
-* [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) (v0.10.0).
+* [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
 ```$ vagrant plugin install vagrant-vbguest```
 
 ---
 
-### What's Included
-* CentOS 6.6 64bit
-	* Make sure curl, wget, unzip, zip, iptables, net-tools are installed
-	* Set vm timezone (configure in Vagrantfile)
-* Apache 2.4
-	* Set up to serve all static content and reverse-proxy cfm/cfc/jsp requests to Lucee
-* MySQL 5.1.73
-	* lower_case_table_names = 1 (disables case sensitivity)
-	* bind-address set to 0.0.0.0 so database server can be accessed from the host machine directly (without ssh tunnel)
-	* any SQL files found in the vagrantroot/data directory will be restored to a database with the same name as the SQL file
-* Lucee 4.5.1.000
+## What's Included
+* [CentOS 7.1 64bit](https://www.centos.org)
+	* https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box
+* [Nginx Latest](www.nginx.org)
+	* Set up to serve all static content and reverse-proxy cfm/cfc/jsp requests to Lucee with URL rewrites enabled
+	* Self-signed SSL certificate can be found under `/etc/nginx/ssl` and every site is configured for SSL as well.
+	* Nginx configured with high timeouts for development purposes
+* [CommandBox v2.1.0](http://www.ortussolutions.com/products/commandbox)
+	* Set up to do build processes, REPL, package management or a-la-carte servers if required
+	* CommandBox home configured at `/root/.CommandBox`
+* [Lucee 4.5.1.000](www.lucee.org)
+	* Set up via reverse-proxy in Nginx and with a control port on 8888
+* [Oracle JDK v8u45](http://www.oracle.com/technetwork/java/javase/downloads/)
+	* Installed globally under `/usr/lib/jvm/current`
+* [FakeSMTP](https://nilhcem.github.io/FakeSMTP/)
+	* Lucee is configured with a Fake SMTP server that will output all outbound emails to `/opt/fakeSMTP/output` for convenience
+	* This is installed under `/opt/fakeSMTP`
 
 ---
 
-### Installation
+## Installation
 The first time you clone the repo and bring the box up, it may take several minutes. If it doesn't explicitly fail/quit, then it is still working.
+
 ```
-$ git clone git@github.com:dskaggs/vagrant-centos-lucee.git
+$ git clone git@github.com:Ortus-Solutions/vagrant-centos-lucee.git
 $ cd vagrant-centos-lucee && vagrant up
 ```
 
 Once the Vagrant box finishes and is ready, you should see something like this in your terminal:
+
 ```
 ==> default: Lucee-Dev-v0.1.0
 ==> default:
@@ -65,31 +71,24 @@ Once the Vagrant box finishes and is ready, you should see something like this i
 ==> default: Password: vagrant
 ==> default: " "
 ==> default: " "
-==> default: Database Server Connection Info for External Connections
-==> default: from Host Machine
-==> default:
-==> default: Server: db.lucee.dev
-==> default: Port: 3306
-==> default: User: root
-==> default: Password: password
-==> default:
-==> default: ========================================================================
+========================================================================
 ```
+
+> **Mac Note** : You might be required your administrator password in order to modify the `hosts` file. Unless you run the command with `sudo vagrant up`
+
 Once you see that, you should be able to browse to [http://www.lucee.dev/](http://www.lucee.dev/)
 or [http://192.168.50.25/](http://192.168.50.25/)
 (it may take a few minutes the first time a page loads after bringing your box up, subsequent requests should be much faster).
 
-**NOTE**
+### Notes
 * On Windows (host machines) you should run your terminal as an Administrator; you will also need to make sure your Hosts file isn't set to read-only if you want to take advantage of the hostname functionality. Alternatively, simply use the IP address anywhere you would use the hostname (connecting to database server, etc).
-* The VM is configured to share a "Sites" folder from your computer into the webroot of the VM at /var/www/sites. This is where you should check out each repository
-	* Windows: C:\Users\\&lt;username&gt;\Sites
-	* Mac: /Users/&lt;username&gt;/Sites
-	* Linux: /home/&lt;username&gt;/Sites
+* The VM is configured to share a `www` folder from your computer into the webroot of the VM at `/var/www/sites`.
 
 ---
 
-#### References
-Thanks to Mike Sprague for his work on the Ubuntu version which this project used as a starting point [vagrant-lemtl](https://github.com/mikesprague/vagrant-lemtl)
+## References
+* Thanks to Dan Skaggs, as this is a fork of his vagrant box
+* Thanks to Mike Sprague for his work on the Ubuntu version which this project used as a starting point [vagrant-lemtl](https://github.com/mikesprague/vagrant-lemtl)
 
 ---
 
