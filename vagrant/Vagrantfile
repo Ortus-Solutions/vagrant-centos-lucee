@@ -7,7 +7,7 @@ vm_naked_hostname = "lucee.dev"
 vm_www_hostname = "www.#{vm_naked_hostname}"
 vm_name = "Lucee-Develop"
 vm_max_memory = 1024
-vm_num_cpus = 4
+vm_num_cpus = 2
 vm_max_host_cpu_cap = "100"
 
 # synced folder configuration
