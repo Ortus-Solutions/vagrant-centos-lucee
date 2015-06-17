@@ -1,6 +1,7 @@
-# Vagrant Lucee Development VM (CentOS / Nginx / Tomcat / Lucee / CommandBox)
+# Vagrant Lucee  Development VM 
+> (CentOS+Nginx+Tomcat+Lucee+CommandBox)
 
-Vagrant box for local development with Lucee/CommandBox and several utilities
+Vagrant box for local development with Lucee/CommandBox and several utilities.
 
 ## Requirements
 
@@ -36,8 +37,19 @@ Once Vagrant is installed, or if it already is, it's highly recommended that you
 * [FakeSMTP](https://nilhcem.github.io/FakeSMTP/)
 	* Lucee is configured with a Fake SMTP server that will output all outbound emails to `/opt/fakeSMTP/output` for convenience
 	* This is installed under `/opt/fakeSMTP`
+* [Webmin](http://www.webmin.com)
+	* Webmin is configured on port 10000 in order to allow for web-based management.
 
 ---
+
+## Files
+The repository is divded in two parts:
+-  `vagrant` : Where associated vagrant files reside
+	- `artifacts` : Where downloaded installers will be placed
+	- `bash-scripts` : The provisionning bash scripts for the box
+	- `configs` : Configuration files for Nginx, Lucee, etc
+	- `Vagrantfile` : The vagrant configuration file
+- `www` : Where you put you CFML site
 
 ## Installation
 The first time you clone the repo and bring the box up, it may take several minutes. If it doesn't explicitly fail/quit, then it is still working.
