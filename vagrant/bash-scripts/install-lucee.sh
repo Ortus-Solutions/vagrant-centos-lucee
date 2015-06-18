@@ -56,6 +56,9 @@ fi
 ##############################################################################################
 echo "... Copying the Lucee config files into place ..."
 sudo /bin/cp -f /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
+# Fix For Windows Dumb breaks
+sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh
+# Update Lucee Configuration
 sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
 #sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
 
