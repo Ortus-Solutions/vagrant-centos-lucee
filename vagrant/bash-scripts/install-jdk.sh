@@ -29,7 +29,6 @@ if [ ! -d "/usr/lib/jvm/jdk1.8.0_45" ]; then
 	echo "Moving JDK to installation directoary at /usr/lib/jvm/jdk$JDK_LONGVERSION"
 	sudo mkdir -p /usr/lib/jvm/jdk$JDK_LONGVERSION
 	sudo mv jdk$JDK_LONGVERSION/* /usr/lib/jvm/jdk$JDK_LONGVERSION/
-	sudo rm -rf /vagrant/artifacts/$JDK_FILE
 
 	echo "Linking JDK to 'current' JDK"
 	cd /usr/lib/jvm
