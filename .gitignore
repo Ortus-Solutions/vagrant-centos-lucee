@@ -165,5 +165,6 @@ WEB-INF
 /vagrant/artifacts/*.tar
 /vagrant/artifacts/*.lco
 /vagrant/artifacts/*.jar
+/vagrant/artifacts/*.gz
 
 .tasklist.md
