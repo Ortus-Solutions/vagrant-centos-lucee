@@ -6,8 +6,8 @@ echo "BEGIN installing and configuring Nginx ..."
 
 #install Nginx
 if [ ! -d "/etc/nginx" ]; then
-	sudo yum install epel-release -y > /dev/null
-	sudo yum install nginx -y > /dev/null
+	sudo yum install epel-release -y &>> /vagrant/log/install.txt
+	sudo yum install nginx -y &>> /vagrant/log/install.txt
 fi
 
 echo "... Configuring Nginx ..."
@@ -17,10 +17,10 @@ sudo /bin/cp -f /vagrant/configs/nginx.conf /etc/nginx/
 sudo /bin/cp -fr /vagrant/configs/ssl /etc/nginx/
 
 # restart Nginx
-service nginx restart > /dev/null
+service nginx restart &>> /vagrant/log/install.txt
 
 # set Nginx to start at boot
-chkconfig nginx on > /dev/null
+chkconfig nginx on &>> /vagrant/log/install.txt
 
 echo "... End installing and configuring Nginx."
 echo " "

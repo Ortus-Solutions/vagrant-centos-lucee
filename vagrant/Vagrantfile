@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # server configuration
-vm_ip_address = "192.168.50.25"
+vm_ip_address = "192.168.60.25"
 vm_naked_hostname = "lucee.dev"
 vm_www_hostname = "www.#{vm_naked_hostname}"
 vm_name = "Lucee-Develop"
@@ -49,6 +49,9 @@ Vagrant.configure("2") do |config|
 			vm_www_hostname
 		]
 	end
+
+	# Init log file
+	config.vm.provision :shell, :path => "bash-scripts/setup-log.sh", :privileged => true
 
 	# set vm timezone and do some cleanup before installations
 	config.vm.provision :shell, :path => "bash-scripts/set-vm-timezone.sh", :privileged => true

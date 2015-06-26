@@ -15,7 +15,7 @@ if [ ! -f "/opt/smtp/fakeSMTP-$VERSION.jar" ]; then
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/fakeSMTP-$VERSION.jar" ]; then
 		echo "... Downloading fakeSMTP-$VERSION, standby ..."
-		wget -O /vagrant/artifacts/fakeSMTP-$VERSION.jar http://downloads.ortussolutions.com/nilhcem/fakeSMTP/$VERSION/fakeSMTP-$VERSION.jar  &> /dev/null
+		wget -O /vagrant/artifacts/fakeSMTP-$VERSION.jar http://downloads.ortussolutions.com/nilhcem/fakeSMTP/$VERSION/fakeSMTP-$VERSION.jar &>> /vagrant/log/install.txt
 	fi
 
 	# Install it

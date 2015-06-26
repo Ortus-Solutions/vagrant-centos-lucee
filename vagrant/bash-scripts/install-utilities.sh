@@ -8,19 +8,19 @@ echo "BEGIN installing utilities"
 if [ ! -f /var/log/utils_installed ]; then
 	echo "... Installing miscellaneous/common utilities ..."
 
-	yum install perl -y > /dev/null
-	yum install wget -y > /dev/null
-	yum install nano -y > /dev/null
-	yum install curl -y > /dev/null
-	yum install zip -y > /dev/null
-	yum install unzip -y > /dev/null
-	yum install net-tools -y > /dev/null
+	yum install perl -y &>> /vagrant/log/install.txt
+	yum install wget -y &>> /vagrant/log/install.txt
+	yum install nano -y &>> /vagrant/log/install.txt
+	yum install curl -y &>> /vagrant/log/install.txt
+	yum install zip -y &>> /vagrant/log/install.txt
+	yum install unzip -y &>> /vagrant/log/install.txt
+	yum install net-tools -y &>> /vagrant/log/install.txt
 
 	echo "... Installing WebMin ..."
-	wget -O /root/jcameron-key.asc http://www.webmin.com/jcameron-key.asc > /dev/null
+	wget -O /root/jcameron-key.asc http://www.webmin.com/jcameron-key.asc &>> /vagrant/log/install.txt
 	rpm --import /root/jcameron-key.asc
 	cp /vagrant/configs/webmin.repo /etc/yum.repos.d/
-	yum install webmin -y > /dev/null
+	yum install webmin -y &>> /vagrant/log/install.txt
 
 	touch /var/log/utils_installed
 fi

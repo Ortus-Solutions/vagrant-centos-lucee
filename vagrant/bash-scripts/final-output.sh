@@ -5,15 +5,15 @@ echo " "
 echo "Doing some last minute cleanup ..."
 
 # some final housekeeping
-yum update > /dev/null
+yum update &>> /vagrant/log/install.txt
 
-sudo rm /root/*.run > /dev/null
-sudo rm /root/lucee-options.txt > /dev/null
-sudo rm /root/jcameron-key.asc > /dev/null
+sudo rm /root/*.run &>> /vagrant/log/install.txt
+sudo rm /root/lucee-options.txt &>> /vagrant/log/install.txt
+sudo rm /root/jcameron-key.asc &>> /vagrant/log/install.txt
 
 # Gid rid of firewalld
-systemctl stop firewalld
-systemctl disable firewalld
+systemctl stop firewalld &>> /vagrant/log/install.txt
+systemctl disable firewalld &>> /vagrant/log/install.txt
 
 echo " "
 echo "================= END FINAL-OUTPUT.SH $(date +"%r") ================="
@@ -41,3 +41,6 @@ echo "User: root"
 echo "Password: vagrant"
 echo " "
 echo "========================================================================"
+
+
+echo "Install finished at $(date) " >> /vagrant/log/install.txt

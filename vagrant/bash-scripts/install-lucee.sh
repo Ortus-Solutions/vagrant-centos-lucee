@@ -14,7 +14,7 @@ if [ ! -d "/opt/lucee" ]; then
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run" ]; then
 		echo "... Downloading the Lucee installer, standby ..."
-		wget -O /vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run http://downloads.ortussolutions.com/lucee/lucee/$LUCEE_VERSION/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run  &> /dev/null
+		wget -O /vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run http://downloads.ortussolutions.com/lucee/lucee/$LUCEE_VERSION/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run &>> /vagrant/log/install.txt
 	fi
 
 	echo "... Copying Lucee installer ..."
@@ -42,7 +42,7 @@ if [ ! -f /opt/lucee/lib/lucee-server/patches/$PATCH_FILE ] || [ $PATCH_FORCE -e
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/lucee-$PATCH_FILE" ]; then
 		echo "... Downloading the Lucee patch v$PATCH_VERSION, standby ..."
-		wget -O /vagrant/artifacts/lucee-$PATCH_FILE http://downloads.ortussolutions.com/lucee/lucee/$PATCH_VERSION/lucee-$PATCH_FILE  &> /dev/null
+		wget -O /vagrant/artifacts/lucee-$PATCH_FILE http://downloads.ortussolutions.com/lucee/lucee/$PATCH_VERSION/lucee-$PATCH_FILE &>> /vagrant/log/install.txt
 	fi
 
 	echo "... Copying Lucee Patch ..."
@@ -57,7 +57,7 @@ fi
 echo "... Copying the Lucee config files into place ..."
 sudo /bin/cp -f /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
 # Fix For Windows Dumb breaks
-sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh
+sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh &>> /vagrant/log/install.txt
 # Update Lucee Configuration
 sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
 #sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
@@ -66,8 +66,7 @@ sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/co
 ## Restarting
 ##############################################################################################
 echo "... Restarting Lucee ..."
-service lucee_ctl restart > /dev/null
-
+service lucee_ctl restart &>> /vagrant/log/install.txt
 echo "... END setting up Lucee."
 echo " "
 echo "================= FINISH INSTALL-LUCEE.SH $(date +"%r") ================="

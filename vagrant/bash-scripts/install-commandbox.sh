@@ -15,7 +15,7 @@ if [ ! -f "/usr/bin/box" ]; then
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/commandbox-bin-$CMD_VERSION.zip" ]; then
 		echo "... Downloading JDK: $JDK_VERSION, standby ..."
-		wget -O /vagrant/artifacts/commandbox-bin-$CMD_VERSION.zip http://integration.stg.ortussolutions.com/artifacts/ortussolutions/commandbox/$CMD_VERSION/commandbox-bin-$CMD_VERSION.zip  &> /dev/null
+		wget -O /vagrant/artifacts/commandbox-bin-$CMD_VERSION.zip http://integration.stg.ortussolutions.com/artifacts/ortussolutions/commandbox/$CMD_VERSION/commandbox-bin-$CMD_VERSION.zip &>> /vagrant/log/install.txt
 	fi
 
 	# Unpack it

@@ -17,13 +17,13 @@ if [ ! -d "/usr/lib/jvm/jdk1.8.0_45" ]; then
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/$JDK_FILE" ]; then
 		echo "... Downloading JDK: $JDK_VERSION, standby ..."
-		wget -O /vagrant/artifacts/$JDK_FILE http://downloads.ortussolutions.com/oracle/jdk/$JDK_VERSION/$JDK_FILE  &> /dev/null
+		wget -O /vagrant/artifacts/$JDK_FILE http://downloads.ortussolutions.com/oracle/jdk/$JDK_VERSION/$JDK_FILE &>> /vagrant/log/install.txt
 	fi
 
 	# Install JDK
-	sudo gunzip /vagrant/artifacts/$JDK_FILE &> /dev/null
-	sudo tar -xvf /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &> /dev/null
-	sudo gzip /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar
+	sudo gunzip /vagrant/artifacts/$JDK_FILE &>> /vagrant/log/install.txt
+	sudo tar -xvf /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
+	sudo gzip /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
 	
 	# Move to install directory
 	echo "Moving JDK to installation directoary at /usr/lib/jvm/jdk$JDK_LONGVERSION"
