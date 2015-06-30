@@ -168,4 +168,4 @@ WEB-INF
 /vagrant/artifacts/*.gz
 
 .tasklist.md
-/vagrant/log/*
+/vagrant/log/*.txt
