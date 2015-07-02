@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
 
 	# An array of domains that need configured on the host machine to access the VM
 	domains = []
-	# Look for other sites checked out in the same directory as this repo
+	# Look for other sites checked out in the same directory as this repo that have a "VagrantConfig.yaml" in their root.
 	siteConfigs = Dir["../../*/VagrantConfig.yaml"]
 	
 	siteConfigs.each do |config|
