@@ -1,10 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Require YAML module
+require 'yaml'
+
 # server configuration
 vm_ip_address = "192.168.60.25"
 vm_naked_hostname = "lucee.dev"
-vm_www_hostname = "www.#{vm_naked_hostname}"
 vm_name = "Lucee-Develop"
 vm_max_memory = 1024
 vm_num_cpus = 2
@@ -42,12 +44,21 @@ Vagrant.configure("2") do |config|
 	config.vm.network :private_network, ip: vm_ip_address
 	# config.vm.network :forwarded_port, guest: 22, host: 2223, auto_correct: true
 
+	# An array of domains that need configured on the host machine to access the VM
+	domains = []
+	# Look for other sites checked out in the same directory as this repo
+	siteConfigs = Dir["../../*/VagrantConfig.yaml"]
+	
+	siteConfigs.each do |config|
+		thisConfig = YAML.load_file( config )
+		puts "Found '#{thisConfig["name"]}' in #{config.sub! '../../', ''}"
+		domains.concat thisConfig["domains"]
+	end
+
 	if Vagrant.has_plugin?("vagrant-hostsupdater")
 		# set vm hostname
 		config.vm.hostname = vm_naked_hostname
-		config.hostsupdater.aliases = [
-			vm_www_hostname
-		]
+		config.hostsupdater.aliases = domains
 	end
 
 	# Init log file
@@ -70,7 +81,7 @@ Vagrant.configure("2") do |config|
 
 	# install/configure lucee
 	config.vm.provision :shell, :path => "bash-scripts/install-lucee.sh", :privileged => true, :args => [
-		vm_name, vm_www_hostname, vm_ip_address
+		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
 	# install/configure FakeSMTP
@@ -78,7 +89,7 @@ Vagrant.configure("2") do |config|
 
 	# confirm setup is complete and output connection info
 	config.vm.provision :shell, :path => "bash-scripts/final-output.sh", :privileged => true, :args => [
-		vm_name, vm_www_hostname, vm_ip_address
+		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
 	# add synced folder
