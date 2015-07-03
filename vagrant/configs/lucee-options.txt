@@ -1,1 +1,2 @@
 railopass=password
+installconn=false
