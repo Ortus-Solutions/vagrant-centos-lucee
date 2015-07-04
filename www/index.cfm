@@ -1,10 +1,9 @@
-<h1>I am your Lucee-hosted site</h1>
+<h1>Congrats, your local environment is up and running!</h1>
 <cfoutput>
 	#now()#
 </cfoutput>
+<p>You can access the Lucee Server Administrator here:<br>
+<a href="/lucee/admin/server.cfm">/lucee/admin/server.cfm</a>
+</p>
 <p>
-My code is located in your "www" folder in the root of the Git repo.  
-<p>
-You can edit this site on your host machine and the files are mapped directly over to the /var/www/sites folder on the VM.
-
-<cfdump var="#cgi#" />
+@@siteList@@

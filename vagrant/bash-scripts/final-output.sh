@@ -4,6 +4,9 @@ echo "================= START FINAL-OUTPUT.SH $(date +"%r") ================="
 echo " "
 echo "Doing some last minute cleanup ..."
 
+sudo service lucee_ctl restart &>> /vagrant/log/install.txt
+sudo service nginx restart &>> /vagrant/log/install.txt
+
 # some final housekeeping
 yum update &>> /vagrant/log/install.txt
 

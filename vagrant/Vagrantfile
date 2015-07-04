@@ -14,10 +14,16 @@ vm_max_host_cpu_cap = "100"
 
 # synced folder configuration
 synced_webroot_local = "../www"
-synced_webroot_box = "/var/www/sites/"
-synced_webroot_id = "vagrant-webroot"
+synced_webroot_box = "/var/wwwDefault/"
+synced_webroot_id = "wwwDefault"
 synced_webroot_owner = "vagrant"
 synced_webroot_group = "vagrant"
+
+synced_parent_local = "../../"
+synced_parent_box = "/vagrant-parent"
+synced_parent_id = "vagrant-parent"
+synced_parent_owner = "vagrant"
+synced_parent_group = "vagrant"
 
 Vagrant.configure("2") do |config|
 	config.vm.box = "centos-7-x64"
@@ -84,6 +90,9 @@ Vagrant.configure("2") do |config|
 		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
+	# Configure dynamic sites
+	config.vm.provision :shell, :path => "bash-scripts/configure-sites.sh", :privileged => true
+	
 	# install/configure FakeSMTP
 	config.vm.provision :shell, :path => "bash-scripts/install-fakesmtp.sh", :privileged => true
 
@@ -92,10 +101,8 @@ Vagrant.configure("2") do |config|
 		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
-	# add synced folder
+	# add synced folders
 	config.vm.synced_folder synced_webroot_local, synced_webroot_box, :id => synced_webroot_id, :owner => synced_webroot_owner, :group => synced_webroot_group
+	config.vm.synced_folder synced_parent_local, synced_parent_box, :id => synced_parent_id, :owner => synced_parent_owner, :group => synced_parent_group
 
-	# after everything has mounted, start apache
-	# this is needed b/c Apache tries to start before sync'd folders are mounted
-	config.vm.provision :shell, :inline => "sudo service nginx start", run: "always"
 end

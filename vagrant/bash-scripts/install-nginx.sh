@@ -8,11 +8,14 @@ echo "BEGIN installing and configuring Nginx ..."
 if [ ! -d "/etc/nginx" ]; then
 	sudo yum install epel-release -y &>> /vagrant/log/install.txt
 	sudo yum install nginx -y &>> /vagrant/log/install.txt
+	# Custom site configs will go here
+	sudo mkdir /etc/nginx/sites &>> /vagrant/log/install.txt
 fi
 
 echo "... Configuring Nginx ..."
-# copy our modified Nginx config files
+# copy our Nginx config files
 sudo /bin/cp -f /vagrant/configs/nginx.conf /etc/nginx/ 
+sudo /bin/cp -f /vagrant/configs/nginx-default.conf /etc/nginx/default.d/
 # copy SSL Certs
 sudo /bin/cp -fr /vagrant/configs/ssl /etc/nginx/
 

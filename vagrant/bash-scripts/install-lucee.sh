@@ -60,7 +60,7 @@ sudo /bin/cp -f /vagrant/configs/setenv.sh /opt/lucee/tomcat/bin
 sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh &>> /vagrant/log/install.txt
 # Update Lucee Configuration
 sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
-#sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
+sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
 
 ##############################################################################################
 ## Restarting

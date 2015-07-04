@@ -1,0 +1,25 @@
+# name of the app
+name: Site 1
+
+# Path to web root relative to the repo root
+webroot: www
+
+# List of domains to be added to the Host machine's hosts file
+domains:
+- site1.local
+- cool.site1.local
+
+# List of domains to be added to the VM's host file
+vmhosts: []
+
+# List of CF Mappings to create
+cfmappings: 
+- virtual: /foo
+  physical: www
+- virtual: /bar
+  physical: sdfds
+- virtual: /brad
+  physical: ''
+
+# List of datasources to create
+datasources: []
