@@ -7,9 +7,7 @@
 	_echo( "================= START CONFIGURE-SITES.SH #now()# =================" )
 	_echo( '' )
 	
-	// Clean up old Nginx site configs
-	directoryDelete( '/etc/nginx/sites/', true )
-	directoryCreate( '/etc/nginx/sites/' )
+	removePreviousConfig()
 	
 	siteConfigPaths = getSiteConfigs()
 	siteConfigs = {}
@@ -26,9 +24,11 @@
 			siteConfigs[ siteConfigPath ] = { 'error' : false }.append( config )
 			
 			_echo( "" )	
-		} catch( Any e ) {
+		} catch( Any e ) { 
 			_echo( "================= Error configuring site '#siteName#'.  Error to follow. =================" )
-			writeDump( var=e, format="text" )
+			_echo( e.message )
+			_echo( e.detail )
+			_echo( e.stackTrace )
 			_echo( "================= end '#siteName#' error =================" )
 			
 			siteConfigs[ siteConfigPath ] = { 'error' : true, 'errorStruct' : e }
@@ -40,6 +40,19 @@
 	_echo( '' )
 	_echo( "================= FINISH CONFIGURE-SITES.SH #now()# =================" )
 	_echo( '' )
+
+
+	//////////////////////////////////////////////////////
+	//  Remove previous config 
+	/////////////////////////////////////////////////////
+	function removePreviousConfig() {
+		// Clean up old Nginx site configs
+		directoryDelete( '/etc/nginx/sites/', true )
+		directoryCreate( '/etc/nginx/sites/' )
+		
+		// Mappings? Datasources? Bueller? BUELLER?
+	}
+
 
 
 	//////////////////////////////////////////////////////
