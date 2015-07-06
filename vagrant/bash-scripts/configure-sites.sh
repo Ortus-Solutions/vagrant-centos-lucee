@@ -1,28 +1,42 @@
 #!/usr/bin/env box
 <cftry>
 <cfscript>
+
+	// A library for parsing YAML
 	YAMLParser = new vagrant.cfml.lib.YAMLParser()
 	
 	_echo( '' )
 	_echo( "================= START CONFIGURE-SITES.SH #now()# =================" )
 	_echo( '' )
 	
+	//Clean up previous mess
 	removePreviousConfig()
 	
+	// Get all the YAML configs
 	siteConfigPaths = getSiteConfigs()
 	siteConfigs = {}
+	
+	// Loop over each sites' config
 	for( siteConfigPath in siteConfigPaths ) {
+	
+		// Default site name to config path for error logging in case we never made it past the parsing
 		siteName = siteConfigPath
-		
+	
+		// Configure each site in a try/catch so if one errors, the rest can still complete	
 		try {
+			// Parse the YAML
 			config = YAMLParser.yamlToCfml( fileRead( siteConfigPath ) )
 			siteName = config['name']
 			
+			// Set up the Nginx servers
 			configureNginx( config, siteConfigPath )
+			
+			// Process the CF mappings 
 			configureMappings( config, siteConfigPath )
 		
+			// Add error=false to the config struct for the index page we'll create that lists all the sites
 			siteConfigs[ siteConfigPath ] = { 'error' : false }.append( config )
-			
+						
 			_echo( "" )	
 		} catch( Any e ) { 
 			_echo( "================= Error configuring site '#siteName#'.  Error to follow. =================" )
@@ -31,10 +45,12 @@
 			_echo( e.stackTrace )
 			_echo( "================= end '#siteName#' error =================" )
 			
+			// If configuration failed, flag it and add the error struct.
 			siteConfigs[ siteConfigPath ] = { 'error' : true, 'errorStruct' : e }
 		}
 	}
 	
+	// Write out an index page for the default site that will list all the apps we configured on the VM
 	writeDefaultIndex( siteConfigs )
 		
 	_echo( '' )
