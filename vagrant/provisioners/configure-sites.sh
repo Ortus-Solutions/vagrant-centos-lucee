@@ -4,6 +4,7 @@
 
 	// A library for parsing YAML
 	YAMLParser = new vagrant.provisioners.lib.YAMLParser()
+	// Helper functions for provisioning the sites
 	util = new vagrant.provisioners.lib.ProvisionerUtil()
 	
 	util._echo( '' )
@@ -61,6 +62,7 @@
 	
 </cfscript>
 <cfcatch>
+	<!--- This is a workaround for the default CLI template being broken in CommandBox.  COMMANDBOX-220 --->
 	<cfdump var="#cfcatch#" format="text">
 </cfcatch>
 </cftry>
