@@ -62,11 +62,7 @@ sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh &>> /vagrant/log/install.txt
 sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
 sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
 
-##############################################################################################
-## Restarting
-##############################################################################################
-echo "... Restarting Lucee ..."
-service lucee_ctl restart &>> /vagrant/log/install.txt
+
 echo "... END setting up Lucee."
 echo " "
 echo "================= FINISH INSTALL-LUCEE.SH $(date +"%r") ================="

@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
 	# An array of domains that need configured on the host machine to access the VM
 	domains = []
 	# Look for other sites checked out in the same directory as this repo that have a "VagrantConfig.yaml" in their root.
-	siteConfigs = Dir["../../*/VagrantConfig.yaml"]
+	siteConfigs = Dir["../../*/VagrantConfig/*.yaml"]
 	
 	siteConfigs.each do |config|
 		thisConfig = YAML.load_file( config )
@@ -68,36 +68,36 @@ Vagrant.configure("2") do |config|
 	end
 
 	# Init log file
-	config.vm.provision :shell, :path => "bash-scripts/setup-log.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/setup-log.sh", :privileged => true
 
 	# set vm timezone and do some cleanup before installations
-	config.vm.provision :shell, :path => "bash-scripts/set-vm-timezone.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/set-vm-timezone.sh", :privileged => true
 
 	# install miscellaneous utilities
-	config.vm.provision :shell, :path => "bash-scripts/install-utilities.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/install-utilities.sh", :privileged => true
 
 	# install/configure nginx
-	config.vm.provision :shell, :path => "bash-scripts/install-nginx.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/install-nginx.sh", :privileged => true
 
 	# install/configure Oracle JDK
-	config.vm.provision :shell, :path => "bash-scripts/install-jdk.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/install-jdk.sh", :privileged => true
 
 	# install/configure CommandBox
-	config.vm.provision :shell, :path => "bash-scripts/install-commandbox.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/install-commandbox.sh", :privileged => true
 
 	# install/configure lucee
-	config.vm.provision :shell, :path => "bash-scripts/install-lucee.sh", :privileged => true, :args => [
+	config.vm.provision :shell, :path => "provisioners/install-lucee.sh", :privileged => true, :args => [
 		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
 	# Configure dynamic sites
-	config.vm.provision :shell, :path => "bash-scripts/configure-sites.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/configure-sites.sh", :privileged => true
 	
 	# install/configure FakeSMTP
-	config.vm.provision :shell, :path => "bash-scripts/install-fakesmtp.sh", :privileged => true
+	config.vm.provision :shell, :path => "provisioners/install-fakesmtp.sh", :privileged => true
 
 	# confirm setup is complete and output connection info
-	config.vm.provision :shell, :path => "bash-scripts/final-output.sh", :privileged => true, :args => [
+	config.vm.provision :shell, :path => "provisioners/final-output.sh", :privileged => true, :args => [
 		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
