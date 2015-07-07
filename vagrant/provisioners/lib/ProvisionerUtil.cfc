@@ -5,8 +5,15 @@ component {
 	****************************************************/
 	function removePreviousConfig() {
 		// Clean up old Nginx site configs
-		directoryDelete( '/etc/nginx/sites/', true )
+		if( directoryExists( '/etc/nginx/sites/' ) ) {
+			directoryDelete( '/etc/nginx/sites/', true )
+		}
 		directoryCreate( '/etc/nginx/sites/' )
+		
+		if( directoryExists( '/var/www/includes' ) ) {
+			directoryDelete( '/var/www/includes', true )
+		}
+		directoryCreate( '/var/www/includes' )
 		
 		// Mappings? Datasources? Bueller? BUELLER?
 	}
@@ -109,6 +116,8 @@ component {
 		}
 		defaultSiteIndex = replaceNoCase( defaultSiteIndex, '@@siteList@@', siteList )
 		fileWrite( '/var/www/index.cfm', defaultSiteIndex )
+		
+		directoryCopy( '/var/wwwDefault/includes', '/var/www/includes', true )
 	}
 		
 	/****************************************************
