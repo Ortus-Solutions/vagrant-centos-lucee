@@ -4,13 +4,10 @@ name: Site 1
 # Path to web root relative to the repo root
 webroot: www
 
-# List of domains to be added to the Host machine's hosts file
-domains:
+# List of domains to be added to the Host machine's and VM's "hosts" file
+hosts:
 - site1.local
 - cool.site1.local
-
-# List of domains to be added to the VM's host file
-vmhosts: []
 
 # List of CF Mappings to create
 cfmappings: 

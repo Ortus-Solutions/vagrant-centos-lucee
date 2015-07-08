@@ -49,7 +49,7 @@ component {
 		var siteTemplate = fileRead( '/vagrant/configs/site-template.conf' )
 		// Swap out the dynamic parts
 		siteTemplate = replaceNoCase( siteTemplate, '@@webroot@@', webRoot )
-		siteTemplate = replaceNoCase( siteTemplate, '@@domains@@', arrayToList( config['domains'], ' ' ) )
+		siteTemplate = replaceNoCase( siteTemplate, '@@hosts@@', arrayToList( config['hosts'], ' ' ) )
 		
 		// Write it back out
 		var fileName = '/etc/nginx/sites/#slugifySiteName( config[ 'name' ] )#.conf' 
@@ -110,6 +110,8 @@ component {
 	****************************************************/
 	function writeDefaultIndex( siteConfigs ) {
 		var defaultSiteIndex = fileRead( '/var/wwwDefault/index.cfm' )
+		
+		sortedConfigs = siteConfigs.sort( 'text', 'asc', 'name' )
 		
 		saveContent variable='local.siteList' {
 			include '/var/wwwDefault/siteList.cfm';

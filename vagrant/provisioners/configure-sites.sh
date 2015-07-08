@@ -48,7 +48,7 @@
 			util._echo( "================= end '#siteName#' error =================" )
 			
 			// If configuration failed, flag it and add the error struct.
-			siteConfigs[ siteConfigPath ] = { 'error' : true, 'errorStruct' : e }
+			siteConfigs[ siteConfigPath ] = { 'error' : true, 'errorStruct' : e, 'name' : listLast( siteConfigPath, '/' ) }
 		}
 	}
 	

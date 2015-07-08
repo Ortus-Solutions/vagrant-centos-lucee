@@ -8,7 +8,7 @@
 				Run "vagrant reload --provision" after adding or removing repos.
 			</h4>
 		</div>
-		<cfloop collection="#siteConfigs#" item="configPath">
+		<cfloop array="#sortedConfigs#" index="configPath">
 			<div class="site">
 				<cfset siteConfig = siteConfigs[ configPath ]>
 				<cfif siteConfig.error >
@@ -26,8 +26,10 @@
 			</div>
 		</cfloop>
 	<cfelse>
-		<h3>
-			There are no sites configured.  Make sure they are checked out in the same folder as the Vagrant repo and have a VagrantConfig folder with one or more YAML files.
-		</h3>
+		<div class="header">
+			<h3>
+				There are no sites configured.  Make sure they are checked out in the same folder as the Vagrant repo and have a "VagrantConfig" folder with one or more YAML files.
+			</h3>
+		</div>
 	</cfif>
 </cfoutput>
