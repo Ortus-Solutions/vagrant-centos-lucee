@@ -27,24 +27,29 @@
 		}
 	</style>
 </head>
-<body>
-
-	<div class="wrap">
-		<div class="header">
-			<div style="text-align:center">
-				<img src="/includes/logo.jpg">
-				<p>custom development environment</p>
-			</div> 
-			<h1>Congrats, your local environment is up and running!</h1>
-			<cfoutput>#dateFormat( now(), "full" )#</cfoutput>
-			<p>
-				Access the Lucee Server Administrator at: <a href="/lucee/admin/server.cfm">/lucee/admin/server.cfm</a>
-			</p>
+<cfoutput>
+	<body>
+	
+		<div class="wrap">
+			<div class="header">
+				<div style="text-align:center">
+					<img src="/includes/logo.jpg">
+					<p>custom development environment</p>
+				</div> 
+				<h1>Congrats, your local environment is up and running!</h1>
+				#dateFormat( now(), "full" )#
+				<p>
+					Access the Lucee Server Administrator at: <a href="http://#cgi.server_name#/lucee/admin/server.cfm">http://#cgi.server_name#/lucee/admin/server.cfm</a>
+				</p>
+				<p>
+					Access Webmin at: <a href="https://#cgi.server_name#:10000">https://#cgi.server_name#:10000</a>
+				</p>
+				
+			</div>
 			
+			@@siteList@@
+	
 		</div>
-		
-@@siteList@@
-
-	</div>
-</body>
+	</body>
+</cfoutput>
 </html>
