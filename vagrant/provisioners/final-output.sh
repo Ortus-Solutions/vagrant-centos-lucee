@@ -9,10 +9,16 @@ echo "Doing some last minute cleanup ..."
 ##############################################################################################
 ## Restarting
 ##############################################################################################
+
 echo "... Restarting Lucee ..."
 service lucee_ctl restart &>> /vagrant/log/install.txt
+
 echo "... Restarting Nginx..."
 sudo service nginx restart &>> /vagrant/log/install.txt
+
+echo "... Restarting networking..."
+sudo service network restart &>> /vagrant/log/install.txt
+
 
 # some final housekeeping
 yum update &>> /vagrant/log/install.txt

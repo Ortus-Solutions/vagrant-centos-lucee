@@ -18,7 +18,7 @@
 				<cfelse>
 					<h2>#siteConfig.name#</h2>
 					<ul>
-					<cfloop array="#siteConfig.domains#" index="domain">
+					<cfloop array="#siteConfig.hosts#" index="domain">
 						<li><a href="http://#domain#">#domain#</a></li>
 					</cfloop>
 					</ul>

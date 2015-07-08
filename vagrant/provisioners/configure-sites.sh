@@ -35,6 +35,9 @@
 			
 			// Process the CF mappings 
 			util.configureMappings( config, siteConfigPath )
+			
+			// Process the CF mappings 
+			util.configureHosts( config )
 		
 			// Add error=false to the config struct for the index page we'll create that lists all the sites
 			siteConfigs[ siteConfigPath ] = { 'error' : false }.append( config )

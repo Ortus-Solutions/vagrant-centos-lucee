@@ -104,6 +104,30 @@ component {
 		
 	}
 	
+	
+	/****************************************************
+	*  Setup hosts in the VM's host file.
+	*  The hostmachine's host file is handled by the 
+	*  Vagrant hostupdater plugin in the VagrantFile
+	****************************************************/
+	function configureHosts( config ) {
+		
+		// Read in our Linux hosts files
+		var hosts = fileRead( '/etc/hosts' )
+		
+		for( var host in config[ 'hosts' ] ) {
+			if( ! reFindNoCase( '\s*#host#\s*$', hosts ) ) {
+				hosts &= '#chr( 10 )#127.0.0.1	#host#' 
+				_echo( "Added #host# to /etc/hosts" )
+			}
+		}
+		
+		// Write it back out 
+		fileWrite( '/etc/hosts', hosts )
+		
+	}
+	
+	
 	/****************************************************
 	*  Write dynamic default index that 
 	*  lists out the configured sites
@@ -138,7 +162,7 @@ component {
 	*  install log and adds line feed
 	****************************************************/	
 	function _echo( message ) {
-		message &= chr(10)
+		message &= chr( 10 )
 		echo( message )
 		fileAppend( '/vagrant/log/install.txt', message )
 	}

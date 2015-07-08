@@ -21,6 +21,8 @@ if [ ! -f "/usr/bin/box" ]; then
 	# Unpack it
 	sudo unzip /vagrant/artifacts/commandbox-bin-$CMD_VERSION.zip -d /usr/bin/
 	chmod +x /usr/bin/box
+	
+	sudo box version &>> /vagrant/log/install.txt
 
 	echo "CommandBox installed successfully"
 	
