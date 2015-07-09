@@ -104,6 +104,99 @@ component {
 		
 	}
 	
+	/****************************************************
+	*  Create CF mappings in the server
+	*
+	*  <data-source
+	*  		allow="511"
+	*  		blob="false"
+	*  		class="com.microsoft.jdbc.sqlserver.SQLServerDriver"
+	*  		clob="false"
+	*  		connectionTimeout="1"
+	*  		custom="DATABASENAME=myDB&amp;sendStringParametersAsUnicode=true&amp;SelectMethod=direct"
+	*  		database="myDB"
+	*  		dbdriver="MSSQL"
+	*  		dsn="jdbc:sqlserver://{host}:{port}"
+	*  		host="localhost"
+	*  		metaCacheTimeout="60000"
+	*  		name="myDS"
+	*  		password="encrypted:8cc95a59f1d667fa5cb736e6c3363465"
+	*  		port="1433"
+	*  		storage="false"
+	*  		username="bob"
+	*  		validate="false"
+	*  		/>
+	*
+	****************************************************/
+	function configureDataSources( config ) {
+		// Adding this to the server context.   Might need to add to the web context, but would need to 
+		// do some magic since WEB-INFs wouldn't be created yet
+		serverXML = XMLParse( fileRead( '/opt/lucee/lib/lucee-server/context/lucee-server.xml' ) )
+		for( var datasource in config[ 'datasources' ] ) {
+			datasource = getDefaultDatasource().append( datasource )			
+			var found = false
+			
+			// Check for existing
+			for( var child in serverXML.cfLuceeConfiguration[ 'data-sources' ].XmlChildren ) {
+				if( child.xmlName == 'data-source' && child.XmlAttributes.name == trim( datasource.name ) ) {
+					found = true
+					break;
+				}
+			}
+			
+			if( found ) { continue; }
+			
+			var newDatasource = XmlElemNew( serverXML, 'data-source' )
+			newDatasource.XmlAttributes[ 'name' ] = datasource.name
+			newDatasource.XmlAttributes[ 'blob' ] = datasource.blob
+			newDatasource.XmlAttributes[ 'class' ] = datasource.class
+			newDatasource.XmlAttributes[ 'clob' ] = datasource.clob
+			newDatasource.XmlAttributes[ 'connectionTimeout' ] = datasource.connectionTimeout
+			newDatasource.XmlAttributes[ 'custom' ] = datasource.custom
+			newDatasource.XmlAttributes[ 'database' ] = datasource.database
+			newDatasource.XmlAttributes[ 'dbdriver' ] = datasource.dbdriver
+			newDatasource.XmlAttributes[ 'dsn' ] = datasource.dsn
+			newDatasource.XmlAttributes[ 'host' ] = datasource.host
+			newDatasource.XmlAttributes[ 'metaCacheTimeout' ] = datasource.metaCacheTimeout
+			newDatasource.XmlAttributes[ 'allow' ] = datasource.allow
+			newDatasource.XmlAttributes[ 'password' ] = datasource.password
+			newDatasource.XmlAttributes[ 'port' ] = datasource.port
+			newDatasource.XmlAttributes[ 'storage' ] = datasource.storage
+			newDatasource.XmlAttributes[ 'username' ] = datasource.username
+			newDatasource.XmlAttributes[ 'validate' ] = datasource.validate
+			
+			serverXML.cfLuceeConfiguration[ 'data-sources' ].XmlChildren.append( newDatasource )
+			
+			fileWrite( '/opt/lucee/lib/lucee-server/context/lucee-server.xml', toString( serverXML )  )
+			
+			_echo( "Added CF data source #datasource.name#" )
+			
+		}
+		
+	}
+	
+	// All the possible data source keys 
+	function getDefaultDatasource() {
+		return {
+			allow="511",
+			blob="false",
+			class="com.microsoft.jdbc.sqlserver.SQLServerDriver",
+			clob="false",
+			connectionTimeout="1",
+			custom="",
+			database="",
+			dbdriver="MSSQL",
+			dsn="jdbc:sqlserver://{host}:{port}",
+			host="localhost",
+			metaCacheTimeout="60000",
+			name="",
+			password="",
+			port="1433",
+			storage="false",
+			username="",
+			validate="false"
+		};	
+	}
 	
 	/****************************************************
 	*  Setup hosts in the VM's host file.

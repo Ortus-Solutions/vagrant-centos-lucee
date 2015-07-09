@@ -36,6 +36,9 @@
 			// Process the CF mappings 
 			util.configureMappings( config, siteConfigPath )
 			
+			// Process the CF data sources
+			util.configureDataSources( config )
+			
 			// Process the CF mappings 
 			util.configureHosts( config )
 		
