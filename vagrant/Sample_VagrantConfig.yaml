@@ -19,4 +19,20 @@ cfmappings:
   physical: ''
 
 # List of datasources to create
-datasources: []
+datasources: 
+- name: ds1
+  database: db1
+  host: sqlserverhost
+  port: 1433
+  username: 
+  password: 
+  class: com.microsoft.jdbc.sqlserver.SQLServerDriver
+  dsn: jdbc:sqlserver://{host}:{port}
+- name: ds2
+  database: db2
+  host: sqlserverhost
+  port: 1433
+  username: 
+  password: 
+  class: com.microsoft.jdbc.sqlserver.SQLServerDriver
+  dsn: jdbc:sqlserver://{host}:{port}
