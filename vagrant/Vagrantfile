@@ -6,7 +6,7 @@ require 'yaml'
 
 # server configuration
 vm_ip_address = "192.168.60.25"
-vm_naked_hostname = "lucee.dev"
+vm_naked_hostname = "esri-web.dev"
 vm_name = "Lucee-Develop"
 vm_max_memory = 1024
 vm_num_cpus = 2
@@ -56,9 +56,13 @@ Vagrant.configure("2") do |config|
 	siteConfigs = Dir["../../*/VagrantConfig/*.yaml"]
 	
 	siteConfigs.each do |config|
-		thisConfig = YAML.load_file( config )
-		puts "Found '#{thisConfig["name"]}' in #{config.sub! '../../', ''}"
-		hosts.concat thisConfig["hosts"]
+		if File.read(config).length > 0
+			thisConfig = YAML.load_file( config )
+			puts "Found '#{thisConfig["name"]}' in #{config.sub! '../../', ''}"
+			hosts.concat thisConfig["hosts"]
+		else
+			puts "Found '#{config}' but it was empty!"		
+		end
 	end
 
 	if Vagrant.has_plugin?("vagrant-hostsupdater")
@@ -66,7 +70,7 @@ Vagrant.configure("2") do |config|
 		config.vm.hostname = vm_naked_hostname
 		config.hostsupdater.aliases = hosts
 	end
-
+	
 	# Init log file
 	config.vm.provision :shell, :path => "provisioners/setup-log.sh", :privileged => true
 
@@ -90,9 +94,10 @@ Vagrant.configure("2") do |config|
 		vm_name, vm_naked_hostname, vm_ip_address
 	]
 
-	# Configure dynamic sites
-	config.vm.provision :shell, :path => "provisioners/configure-sites.sh", :privileged => true
-	
+	# Configure dynamic sites.  The arg we pass in is the local path on the host to the parend directory that holds the repos.
+	# It is used to generate better messaging to the user.
+	config.vm.provision :shell, :path => "provisioners/configure-sites.sh", :privileged => true, :args => [ File.expand_path('../../../', __FILE__) ]
+		
 	# install/configure FakeSMTP
 	config.vm.provision :shell, :path => "provisioners/install-fakesmtp.sh", :privileged => true
 

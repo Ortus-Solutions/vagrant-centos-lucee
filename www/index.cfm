@@ -41,9 +41,6 @@
 				<p>
 					Access the Lucee Server Administrator at: <a href="http://#cgi.server_name#/lucee/admin/server.cfm">http://#cgi.server_name#/lucee/admin/server.cfm</a>
 				</p>
-				<p>
-					Access Webmin at: <a href="https://#cgi.server_name#:10000">https://#cgi.server_name#:10000</a>
-				</p>
 				
 			</div>
 			
