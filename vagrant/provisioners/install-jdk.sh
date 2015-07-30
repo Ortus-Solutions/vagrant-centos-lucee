@@ -7,12 +7,13 @@ echo "BEGIN installing JDK"
 ##############################################################################################
 ## JDK Installation
 ##############################################################################################
-JDK_VERSION="8u45"
-JDK_LONGVERSION="1.8.0_45"
-JDK_FILE="jdk-$JDK_VERSION-linux-x64.tar.gz"
+JDK_VERSION="8u51"
+JDK_LONGVERSION="1.8.0_51"
+JDK_FILE="jdk-$JDK_VERSION-linux-x64.gz"
+JDK_FORCE=0
 
 # Check if we have this JDK installed
-if [ ! -d "/usr/lib/jvm/jdk1.8.0_45" ]; then
+if [ ! -d "/usr/lib/jvm/jdk1.8.0_51" ] || [ $JDK_FORCE -eq 1 ]; then
 	
 	# Don't download if we've already got it locally
 	if [ ! -f "/vagrant/artifacts/$JDK_FILE" ]; then
@@ -21,12 +22,12 @@ if [ ! -d "/usr/lib/jvm/jdk1.8.0_45" ]; then
 	fi
 
 	# Install JDK
-	sudo gunzip /vagrant/artifacts/$JDK_FILE &>> /vagrant/log/install.txt
-	sudo tar -xvf /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
-	sudo gzip /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
+	sudo gunzip -c /vagrant/artifacts/$JDK_FILE > jdk-$JDK_VERSION-linux-x64.tar
+	sudo tar -xvf jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
+	#sudo gzip /vagrant/artifacts/jdk-$JDK_VERSION-linux-x64.tar &>> /vagrant/log/install.txt
 	
 	# Move to install directory
-	echo "Moving JDK to installation directoary at /usr/lib/jvm/jdk$JDK_LONGVERSION"
+	echo "Moving JDK to installation directory at /usr/lib/jvm/jdk$JDK_LONGVERSION"
 	sudo mkdir -p /usr/lib/jvm/jdk$JDK_LONGVERSION
 	sudo mv jdk$JDK_LONGVERSION/* /usr/lib/jvm/jdk$JDK_LONGVERSION/
 
