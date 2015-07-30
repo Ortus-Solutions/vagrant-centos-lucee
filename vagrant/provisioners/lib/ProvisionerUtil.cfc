@@ -1,4 +1,11 @@
 component {
+	
+	// A library for parsing YAML
+	YAMLParser = new vagrant.provisioners.lib.YAMLParser()
+
+	function getYAMLParser() {
+		return YAMLParser;
+	}
 
 	/****************************************************
 	*  Remove previous config 
@@ -15,7 +22,6 @@ component {
 		}
 		directoryCreate( '/var/www/includes' )
 		
-		// Mappings? Datasources? Bueller? BUELLER?
 	}
 
 	/****************************************************
@@ -36,26 +42,49 @@ component {
 					configs.append( configsInThisRepo, true )
 			}
 		}
+		
+		
 		return configs
+	}
+
+	/****************************************************
+	*  Default config keys 
+	***************************************************/
+	function defaultConfig( config ) {
+		// Convert to CFML struct
+		config = {}.append( config )
+		
+		// Default all the keys we care about
+		config.name = config.name ?: listLast( config[ '__configFile__' ], '/\' )
+		config.webroot = config.webroot ?: ''
+		config.hosts = config.hosts ?: []
+		config.cfmappings = config.cfmappings ?: []
+		config.datasources = config.datasources ?: []
+		
+		return config;
 	}
 
 	/****************************************************
 	*  Setup Nginx server
 	****************************************************/
 	function configureNginx( config, siteConfigPath ) {
-		var webRoot = convertPath( config['webroot'], siteConfigPath )
-		
-		// Read in our Nginx template file
-		var siteTemplate = fileRead( '/vagrant/configs/site-template.conf' )
-		// Swap out the dynamic parts
-		siteTemplate = replaceNoCase( siteTemplate, '@@webroot@@', webRoot )
-		siteTemplate = replaceNoCase( siteTemplate, '@@hosts@@', arrayToList( config['hosts'], ' ' ) )
-		
-		// Write it back out
-		var fileName = '/etc/nginx/sites/#slugifySiteName( config[ 'name' ] )#.conf' 
-		fileWrite( fileName, siteTemplate )
-		
-		_echo( "Added Nginx site #fileName#" )
+		if( arrayLen( config['hosts'] ) ) {
+			var webRoot = convertPath( config['webroot'], siteConfigPath )
+			
+			// Read in our Nginx template file
+			var siteTemplate = fileRead( '/vagrant/configs/site-template.conf' )
+			// Swap out the dynamic parts
+			siteTemplate = replaceNoCase( siteTemplate, '@@webroot@@', webRoot )
+			siteTemplate = replaceNoCase( siteTemplate, '@@hosts@@', arrayToList( config['hosts'], ' ' ) )
+			
+			// Write it back out
+			var fileName = '/etc/nginx/sites/#slugifySiteName( config[ 'name' ] )#.conf' 
+			fileWrite( fileName, siteTemplate )
+			
+			_echo( "Added Nginx site #fileName#" )
+		} else {
+			_echo( "#config[ 'name' ]# doesn't have any hosts specified, so skipping Nginx config" )
+		}
 	}
 	
 	/****************************************************
@@ -74,7 +103,14 @@ component {
 		// do some magic since WEB-INFs wouldn't be created yet
 		serverXML = XMLParse( fileRead( '/opt/lucee/lib/lucee-server/context/lucee-server.xml' ) )
 		for( var mapping in config[ 'cfmappings' ] ) {
+			// Convert to CFML struct
+			mapping = {}.append( mapping )
 			
+			// Only process if proper keys are defined
+			if( !mapping.keyExists( 'virtual' ) && !mapping.keyExists( 'physical' ) ) {
+				continue;
+			}
+							
 			var found = false
 			
 			// Check for existing
@@ -105,7 +141,7 @@ component {
 	}
 	
 	/****************************************************
-	*  Create CF mappings in the server
+	*  Create CF data sources in the server
 	*
 	*  <data-source
 	*  		allow="511"
@@ -128,7 +164,7 @@ component {
 	*  		/>
 	*
 	****************************************************/
-	function configureDataSources( config ) {
+	function configureDataSources( config, vagrantParentPath ) {
 		// Adding this to the server context.   Might need to add to the web context, but would need to 
 		// do some magic since WEB-INFs wouldn't be created yet
 		serverXML = XMLParse( fileRead( '/opt/lucee/lib/lucee-server/context/lucee-server.xml' ) )
@@ -190,10 +226,8 @@ component {
 			host="localhost",
 			metaCacheTimeout="60000",
 			name="",
-			password="",
 			port="1433",
 			storage="false",
-			username="",
 			validate="false"
 		};	
 	}
@@ -233,6 +267,7 @@ component {
 		saveContent variable='local.siteList' {
 			include '/var/wwwDefault/siteList.cfm';
 		}
+		local.siteList = replaceNoCase( local.siteList, '##', '####', 'all' )
 		defaultSiteIndex = replaceNoCase( defaultSiteIndex, '@@siteList@@', siteList )
 		fileWrite( '/var/www/index.cfm', defaultSiteIndex )
 		

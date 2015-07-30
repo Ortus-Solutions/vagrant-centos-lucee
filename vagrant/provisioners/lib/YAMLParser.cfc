@@ -5,8 +5,13 @@ component {
         return this;
     }
 
-    public any function yamlToCfml( required string yaml ) {
-        return _getYamlParser().load( arguments.yaml );
+    public any function YAMLToCFML( required string yaml ) {
+    	var results = _getYamlParser().load( arguments.yaml );
+        return results ?: {};
+    }
+
+    public any function CFMLToYAML( required any data ) {
+        return _getYamlParser().dump( arguments.data );
     }
 
 	// PRIVATE
