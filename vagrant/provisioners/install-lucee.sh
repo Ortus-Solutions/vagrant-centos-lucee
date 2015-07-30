@@ -7,23 +7,23 @@ echo "BEGIN setting up Lucee"
 ##############################################################################################
 ## Lucee Installation
 ##############################################################################################
-LUCEE_VERSION="4.5.1.000"
+LUCEE_VERSION="4.5.1.022"
 
 if [ ! -d "/opt/lucee" ]; then
 	
 	# Don't download if we've already got it locally
-	if [ ! -f "/vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run" ]; then
+	if [ ! -f "/vagrant/artifacts/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run" ]; then
 		echo "... Downloading the Lucee installer, standby ..."
-		wget -O /vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run http://downloads.ortussolutions.com/lucee/lucee/$LUCEE_VERSION/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run &>> /vagrant/log/install.txt
+		wget -O /vagrant/artifacts/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run http://downloads.ortussolutions.com/lucee/lucee/$LUCEE_VERSION/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run &>> /vagrant/log/install.txt
 	fi
 
 	echo "... Copying Lucee installer ..."
-	sudo cp /vagrant/artifacts/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run /root
+	sudo cp /vagrant/artifacts/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run /root
 	
 	echo "... Installing Lucee ..."
-	chmod +x /root/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run
+	chmod +x /root/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run
 	cp /vagrant/configs/lucee-options.txt /root
-	/root/lucee-$LUCEE_VERSION-pl0-linux-x64-installer.run --mode unattended --optionfile /root/lucee-options.txt
+	/root/lucee-$LUCEE_VERSION-pl1-linux-x64-installer.run --mode unattended --optionfile /root/lucee-options.txt
 else
 	echo "Lucee setup already, skipping"
 fi
@@ -31,7 +31,7 @@ fi
 ##############################################################################################
 ## Patch lucee
 ###############################################################################################
-PATCH_VERSION="4.5.1.020"
+PATCH_VERSION="4.5.2.003"
 PATCH_FILE="$PATCH_VERSION.lco"
 PATCH_FORCE=0
 
@@ -62,6 +62,8 @@ sudo dos2unix /opt/lucee/tomcat/bin/setenv.sh &>> /vagrant/log/install.txt
 sudo /bin/cp -f /vagrant/configs/lucee-server.xml /opt/lucee/lib/lucee-server/context
 sudo cp /vagrant/configs/server.xml /opt/lucee/tomcat/conf/server.xml
 
+sudo mkdir -p /opt/lucee/config/web
+sudo cp -f /vagrant/configs/web.xml /opt/lucee/tomcat/conf/web.xml
 
 echo "... END setting up Lucee."
 echo " "
