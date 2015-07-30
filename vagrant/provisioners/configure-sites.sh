@@ -1,9 +1,15 @@
 #!/usr/bin/env box
 <cftry>
 <cfscript>
+	
+	system 	= createObject( "java", "java.lang.System" )
+	CLIParams = listToArray( system.getProperty( 'cfml.cli.argument.list' ) )
+	if( arrayLen( CLIParams ) ) {
+		vagrantParentPath = CLIParams[1]
+	} else {
+		vagrantParentPath = '<Your repo clone dir>'
+	} 
 
-	// A library for parsing YAML
-	YAMLParser = new vagrant.provisioners.lib.YAMLParser()
 	// Helper functions for provisioning the sites
 	util = new vagrant.provisioners.lib.ProvisionerUtil()
 	
@@ -27,7 +33,9 @@
 		// Configure each site in a try/catch so if one errors, the rest can still complete	
 		try {
 			// Parse the YAML
-			config = YAMLParser.yamlToCfml( fileRead( siteConfigPath ) )
+			config = util.getYAMLParser().yamlToCfml( fileRead( siteConfigPath ) )
+			config[ '__configFile__' ] = siteConfigPath
+			config = util.defaultConfig( config )
 			siteName = config['name']
 			
 			// Set up the Nginx servers
@@ -37,7 +45,7 @@
 			util.configureMappings( config, siteConfigPath )
 			
 			// Process the CF data sources
-			util.configureDataSources( config )
+			util.configureDataSources( config, vagrantParentPath )
 			
 			// Process the CF mappings 
 			util.configureHosts( config )
