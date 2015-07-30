@@ -25,7 +25,6 @@ yum update &>> /vagrant/log/install.txt
 
 sudo rm /root/*.run &>> /vagrant/log/install.txt
 sudo rm /root/lucee-options.txt &>> /vagrant/log/install.txt
-sudo rm /root/jcameron-key.asc &>> /vagrant/log/install.txt
 
 # Gid rid of firewalld
 systemctl stop firewalld &>> /vagrant/log/install.txt
