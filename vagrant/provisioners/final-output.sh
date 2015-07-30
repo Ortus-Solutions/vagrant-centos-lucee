@@ -48,15 +48,6 @@ echo "http://$2:8888/lucee/admin/web.cfm"
 echo " "
 echo " "
 echo "Password (for each admin): password"
-echo " "
-echo " "
-echo "Webmin"
-echo " "
-echo "https://$2:10000"
-echo "User: root"
-echo "Password: vagrant"
-echo " "
 echo "========================================================================"
-
 
 echo "Install finished at $(date) " >> /vagrant/log/install.txt
