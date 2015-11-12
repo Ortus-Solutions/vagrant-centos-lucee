@@ -134,9 +134,11 @@ Here is an overview of the folder structure that should exist on your hard drive
 - `app1/` : An example app
     - `VagrantConfig/`
         - `app1.yaml` : The configuration data for app1`
+    - `www/` : The contents of the app1 website
 - `app2/` : Another example app
     - `VagrantConfig/`
         - `app2.yaml` : The configuration data for app2`
+    - `www/` : The contents of the app2 website
 
 
 ## Managing Setup Changes
