@@ -58,7 +58,7 @@ The first time you clone the repo and bring the box up, it may take several minu
 
 ```
 $ git clone git@github.com:Ortus-Solutions/vagrant-centos-lucee.git
-$ cd vagrant-centos-lucee && vagrant up
+$ cd vagrant-centos-lucee\vagrant && vagrant up
 ```
 
 Once the Vagrant box finishes and is ready, you should see something like this in your terminal:
@@ -134,9 +134,11 @@ Here is an overview of the folder structure that should exist on your hard drive
 - `app1/` : An example app
     - `VagrantConfig/`
         - `app1.yaml` : The configuration data for app1`
+    - `www/` : The contents of the app1 website
 - `app2/` : Another example app
     - `VagrantConfig/`
         - `app2.yaml` : The configuration data for app2`
+    - `www/` : The contents of the app2 website
 
 
 ## Managing Setup Changes
