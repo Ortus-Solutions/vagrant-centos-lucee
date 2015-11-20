@@ -5,7 +5,7 @@
 require 'yaml'
 
 # server configuration
-vm_ip_address = "192.168.60.25"
+vm_ip_address = "192.168.60.35"
 vm_naked_hostname = "lucee.dev"
 vm_name = "Lucee-CFML"
 vm_max_memory = 1024
