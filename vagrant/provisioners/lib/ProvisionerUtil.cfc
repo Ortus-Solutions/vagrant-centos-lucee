@@ -182,6 +182,25 @@ component {
 			
 			if( found ) { continue; }
 			
+			// Lookup DB login credentials.  Will return a struct with empty strings if not found.
+			if( !structKeyExists( datasource, "username" ) || !structKeyExists( datasource, "password" ) ){
+				dbCreds = getDBCreds( datasource.name, vagrantParentPath );
+				if( !structKeyExists( datasource, "username" ) ){
+					if( structKeyExists( dbCreds, "username" ) && len( dbCreds.username ) ){
+						datasource.username = dbCreds.username;
+					} else {
+						datasource.username = "";
+					}
+				}
+				if( !structKeyExists( datasource, "password" ) ){
+					if( structKeyExists( dbCreds, "password" ) && len( dbCreds.password ) ){
+						datasource.password = dbCreds.password;
+					} else {
+						datasource.password = "";
+					}
+				}	
+			}
+			
 			var newDatasource = XmlElemNew( serverXML, 'data-source' )
 			newDatasource.XmlAttributes[ 'name' ] = datasource.name
 			newDatasource.XmlAttributes[ 'blob' ] = datasource.blob
@@ -208,6 +227,67 @@ component {
 			_echo( "Added CF data source #datasource.name#" )
 			
 		}
+		
+	}
+	
+	/****************************************************
+	*  Look up DB credentials in the DBCredentials.yaml 
+	*  file.  If they aren't found, empty string will
+	*  be returned and a message output.
+	****************************************************/
+	function getDBCreds( required name, vagrantParentPath ) {
+		var DBCredDir = '/vagrant-parent/VagrantCredentials/'
+		var DBCredFile = DBCredDir & 'DB.yaml'
+		var DBCredFileFull = replaceNoCase( DBCredFile, '/vagrant-parent', vagrantParentPath )
+		var results = { 'username': '', 'password': '' }
+		
+		// If our DB Credentials file doesn't exist, create it empty
+		if( !fileExists( DBCredFile ) ) {
+			directoryCreate( path=DBCredDir, createPath=true, ignoreExists=true )
+			fileWrite( DBCredFile, '' )			
+		}
+		
+		// Read and parse the DB.yaml file. If it's empty, we'll get {} back
+		try {
+			var DBCreds = getYAMLParser().yamlToCfml( fileRead( DBCredFile ) )
+		} catch ( var e ) {
+			// I don't want a bad DB.yaml file to kill the entire setup.
+			_echo( "Error parsing [#DBCredFileFull#]" )
+			_echo( e.message & ' '  & e.detail )
+			// Just return an empty username and password
+			return results;
+		}
+		
+		// Of there are credentials stored for this datasource...
+		if( structKeyExists( DBCreds, name ) 
+			&& structKeyExists( DBCreds[ name ], 'username' )
+			&& len( trim( DBCreds[ name ][ 'username' ] ) )
+			&& structKeyExists( DBCreds[ name ], 'password' )
+			&& len( trim( DBCreds[ name ][ 'password' ] ) )
+		) {
+			// Get and return them
+			results.username = DBCreds[ name ][ 'username' ]
+			results.password = DBCreds[ name ][ 'password' ]
+			return results;
+		}
+		
+		// If we got here, it means the developer hasn't populated the credientials.
+		// Yell at them a bit in the output.
+		var message = '## Please configure your DB credentials for "#name#" in [#DBCredFileFull#]'
+		_echo( '' )
+		_echo( repeatString( '##', len( message) + 3 ) )
+		_echo( message )
+		_echo( '## and re-provision the VM to pick up the changes' )
+		_echo( repeatString( '##', len( message) + 3 ) )
+		_echo( '' )
+		
+		// Add this data source to the YAML file as a convience to help the developer fill it out.
+		DBCreds[ name ] = results 
+		// Serialize to YAML and write it back out. 
+		fileWrite( DBCredFile, getYAMLParser().CFMLToYAML( DBCreds ) )
+		
+		// Return empty username and password.
+		return results;
 		
 	}
 	
